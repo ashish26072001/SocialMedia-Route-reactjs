@@ -30,7 +30,7 @@ const PostListProvider = ({ children }) => {
             id: Date.now(),
             title: postTitle,
             body: postBody,
-            reactions: {likes:reactions},
+            reactions: { likes: reactions },
             userId: userId,
             tags: tags,
 
@@ -50,21 +50,25 @@ const PostListProvider = ({ children }) => {
       dispatchPostList({ type: "DELETE_POST", payload: { postId, }, });
    };
    useEffect(() => {
-      setFetching(true);
-      const controller = new AbortController();
-      const signal = controller.signal;
+      
+      try {
+         setFetching(true);
+         const controller = new AbortController();
+         const signal = controller.signal;
 
-      fetch("https://dummyjson.com/posts", { signal })
-         .then((res) => res.json())
-         .then((data) => {
-            addinitialPosts(data.posts);
-            setFetching(false);
-         });
+         fetch("https://dummyjson.com/posts", { signal })
+            .then((res) => res.json())
+            .then((data) => {
+               addinitialPosts(data.posts);
+               setFetching(false);
+            });
+      } catch (error) {
 
-      return () => {
-         console.log("Cleaning up UseEffect.");
-         controller.abort();
-      };
+         return () => {
+            console.log("Cleaning up UseEffect.");
+            controller.abort();
+         };
+      }
    }, []);
 
 
