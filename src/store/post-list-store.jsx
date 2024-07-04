@@ -30,7 +30,7 @@ const PostListProvider = ({ children }) => {
             id: Date.now(),
             title: postTitle,
             body: postBody,
-            reactions: reactions,
+            reactions: {likes:reactions},
             userId: userId,
             tags: tags,
 
